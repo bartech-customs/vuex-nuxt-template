@@ -1,23 +1,37 @@
 // holds your root state
 export const state = () => ({
   counter: 0,
+  colorCode: "blue",
 });
 
-// contains your actions
+// contains your actions ASYNC
 export const actions = {
-  counterUp({ state, commit }) {
-    commit("setCounter", state.counter + 1);
+  async increase({ commit }) {
+    const result = await this.$axios.$get(
+      "https://www.random.org/integers/?num=1&min=1&max=6&col=1&base=10&format=plain&rnd=new"
+    );
+    commit("increase", result);
+  },
+  setColorCode({ commit }, newValue) {
+    commit("setColorCode", newValue);
   },
 };
 // contains your mutations
 export const mutations = {
-  setCounter(state, value) {
-    state.counter = value;
+  increase(state, randomNumber) {
+    state.counter += randomNumber;
+  },
+  decrease(state) {
+    state.counter--;
+  },
+  setColorCode(state, newValue) {
+    state.colorCode = newValue;
   },
 };
 // your root getters
 export const getters = {
-  myGetter(state) {
-    return state.counter + 1000;
+  counterSqr(state) {
+    return state.counter * state.counter;
   },
 };
+//https://www.random.org/integers/?num=1&min=1&max=6&col=1&base=10&format=plain&rnd=new

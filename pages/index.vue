@@ -2,9 +2,18 @@
   <div class="container">
     <NuxtLogo />
     <hr />
-    <div class="counter">{{ counter }}</div>
+    <div :style="{ color: $store.state.colorCode }" class="counter">
+      {{ $store.state.counter }}
+    </div>
+    <div class="counter-sqr">
+      {{ $store.state.counter }} <sup>2</sup> = {{ $store.getters.counterSqr }}
+    </div>
     <div class="buttons">
-      <button @click="decrease">-</button><button @click="increase">+</button>
+      <button @click="$store.commit('decrease')">-</button
+      ><button @click="$store.dispatch('increase')">+</button>
+    </div>
+    <div>
+      <input v-model="colorCode" type="text" placeholder="Enter color code" />
     </div>
   </div>
 </template>
@@ -12,16 +21,16 @@
 <script>
 export default {
   data() {
-    return {
-      counter: 0,
-    };
+    return {};
   },
-  methods: {
-    increase() {
-      this.counter++;
-    },
-    decrease() {
-      this.counter--;
+  computed: {
+    colorCode: {
+      get() {
+        return this.$store.state.colorCode;
+      },
+      set(newValue) {
+        this.$store.dispatch("setColorCode", newValue);
+      },
     },
   },
 };
