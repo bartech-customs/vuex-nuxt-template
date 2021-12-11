@@ -1,3 +1,4 @@
+// Other SandBox
 // holds your root state
 export const state = () => ({
   counter: 0,
